@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      function callNumTimes(num, callback) {
+        for (let i = 0; i < num; i++) callback();
+      }
+
+      let fun = function () {
+        alert('함수호출');
+      };
+
+      callNumTimes(10, fun);
+    </script>
+  </head>
+
+  <body></body>
+</html>
