@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      window.onload = function () {
+        // querySelectorAll
+        // 주언진 CSS 선택지에 일치하는 모든 요소를 선택 (Nodelist로 반환)
+        let items = document.querySelectorAll('h1');
+
+        items.forEach((item) => {
+          item.style.color = 'orange';
+          item.style.backgroundColor = 'red';
+          item.innerHTML = 'From JavaScript';
+        });
+      };
+    </script>
+  </head>
+
+  <body>
+    <h1>Header</h1>
+    <h1>Header</h1>
+    <h1>Header</h1>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      window.onload = function () {
+        // 사용자 정의 속성
+        // data-* : HTML 표준에서 사용하는 커스텀 속성
+        // ex) data-custom
+
+        document.body.setAttribute('data-custom', 'value');
+
+        let dataCustom = document.body.getAttribute('data-custom');
+        alert(dataCustom);
+      };
+    </script>
+  </head>
+
+  <body></body>
+</html>
