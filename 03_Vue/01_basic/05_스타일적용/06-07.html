@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 3 연습용 Composition</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      .buttonColor {
+        background-color: aqua;
+        color: black;
+      }
+      .buttonLayout {
+        width: 120px;
+        text-align: 'center';
+      }
+      .staticBorder {
+        border: khaki dashed 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <input type="checkbox" v-model="buttonLayout" />
+      레이아웃 적용 여부 <br />
+      <button
+        class="staticBorder"
+        :class="{
+        buttonLayout :  buttonLayout,
+        buttonColor : true
+      }"
+      >
+        버튼
+      </button>
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const buttonLayout = ref(false);
+
+          return {
+            buttonLayout,
+          };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

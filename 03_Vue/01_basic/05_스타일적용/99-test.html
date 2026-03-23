@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 3 반사신경 테스트</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      /* 버튼을 크게 만들어 클릭하기 쉽게 설정 */
+      .test-screen {
+        width: 300px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+      .waiting {
+        background-color: #2c3e50;
+      }
+      .ready {
+        background-color: #e67e22;
+      }
+      .now {
+        background-color: #2ecc71;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>반사신경 테스트</h1>
+      <p>결과: {{ result }}ms</p>
+
+      <div class="test-screen" :class="status" @click="onClickScreen">
+        {{ message }}
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const status = ref('waiting'); // waiting, ready, now
+          const message = ref('클릭해서 시작하세요');
+          const result = ref(0);
+
+          let startTime = 0;
+          let timer = null;
+
+          const onClickScreen = () => {
+            if (status.value === 'waiting') {
+              // 1. 시작 단계
+              status.value = 'ready';
+              message.value = '초록색이 되면 클릭하세요!';
+
+              // 랜덤한 시간(2~5초) 뒤에 초록색으로 변경
+              timer = setTimeout(
+                () => {
+                  status.value = 'now';
+                  message.value = '지금 클릭!!';
+                  startTime = performance.now(); // 정밀한 시간 측정 시작
+                },
+                Math.floor(Math.random() * 3000) + 2000,
+              );
+            } else if (status.value === 'ready') {
+              // 2. 너무 빨리 누른 경우 (부정출발)
+              clearTimeout(timer);
+              status.value = 'waiting';
+              message.value = '너무 빨라요! 다시 시도하세요.';
+            } else if (status.value === 'now') {
+              // 3. 성공적인 클릭
+              const endTime = performance.now();
+              status.value = 'waiting';
+              result.value = Math.floor(endTime - startTime);
+              message.value = `기록: ${result.value}ms! 다시 하려면 클릭`;
+            }
+          };
+
+          return {
+            status,
+            message,
+            result,
+            onClickScreen,
+          };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
