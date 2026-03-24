@@ -26,9 +26,8 @@ const cancelFix = () => {
   emit('cancel-fix');
 };
 
-const fixSave = (post) => {
+const fixSave = () => {
   emit('save-fix', {
-    no: post.no,
     content: fixPostContent.value,
     title: fixPostTitle.value,
   });

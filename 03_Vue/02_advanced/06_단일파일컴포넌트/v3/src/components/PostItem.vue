@@ -9,28 +9,29 @@
       "
     >
       <h2>{{ post.no }}. {{ post.title }}</h2>
-      <div class="arrow" v-on:click="toggle(post.no)" style="cursor: pointer">
-        {{ openedNo === post.no ? '▲' : '▼' }}
+      <div class="arrow" v-on:click="toggle" style="cursor: pointer">
+        {{ opened ? '▲' : '▼' }}
       </div>
     </div>
 
     <br />
+    <div v-if="opened">
+      <div class="post-content" v-if="!fixing">
+        <PostContent
+          :postContent="post"
+          @close="toggle"
+          @delete="deletePost(post.no)"
+          @fix="fixPost"
+        />
+      </div>
 
-    <div class="post-content" v-if="openedNo === post.no && post.no !== fixNo">
-      <PostContent
-        :postContent="post"
-        @close="closePost"
-        @delete="deletePost"
-        @fix="fixPost"
-      ></PostContent>
-    </div>
-
-    <div class="post-content" v-if="fixNo === post.no && openedNo === post.no">
-      <PostFixContent
-        :fixingPost="post"
-        @cancel-fix="cancelFix"
-        @save-fix="fixSave"
-      ></PostFixContent>
+      <div class="post-content" v-else-if="fixing">
+        <PostFixContent
+          :fixingPost="post"
+          @cancel-fix="fixPost"
+          @save-fix="fixSave($event, post.no)"
+        />
+      </div>
     </div>
   </li>
 </template>
@@ -40,23 +41,15 @@ import { ref } from 'vue';
 import PostContent from './PostContent.vue';
 import PostFixContent from './PostFixContent.vue';
 
-const openedNo = ref(null);
-const fixNo = ref(null);
+const opened = ref(false);
+const fixing = ref(false);
 
-const toggle = (no) => {
-  openedNo.value = openedNo.value === no ? null : no;
+const toggle = () => {
+  opened.value = !opened.value;
 };
 
-const closePost = (no) => {
-  openedNo.value = openedNo.value === no ? null : no;
-};
-
-const fixPost = (post) => {
-  fixNo.value = post.no;
-};
-
-const cancelFix = () => {
-  fixNo.value = null;
+const fixPost = () => {
+  fixing.value = !fixing.value;
 };
 
 const emit = defineEmits('delete', 'fix');
@@ -65,14 +58,14 @@ const deletePost = (no) => {
   emit('delete', no);
 };
 
-const fixSave = (post) => {
+const fixSave = (data, no) => {
   emit('fix', {
-    no: post.no,
-    content: post.content,
-    title: post.title,
+    no: no,
+    content: data.content,
+    title: data.title,
   });
 
-  fixNo.value = null;
+  fixing.value = false;
 };
 
 const props = defineProps({
