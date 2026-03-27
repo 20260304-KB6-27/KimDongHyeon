@@ -5,10 +5,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'CoralSeaTab',
-};
+<script setup>
+// export default {
+//   name: 'CoralSeaTab',
+// };
 </script>
 
 <style scoped></style>
