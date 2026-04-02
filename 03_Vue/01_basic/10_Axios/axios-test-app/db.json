@@ -23,17 +23,6 @@
       "todo": "ES6 공부",
       "desc": "ES6공부를 해야 합니다",
       "done": false
-    },
-    {
-      "todo": "윗몸일으키기",
-      "desc": "너무 빠르지 않게...",
-      "id": "7YipuIqjx8A"
-    },
-    {
-      "todo": "윗몸일으키기",
-      "desc": "awit",
-      "id": "cWwfm15p-OI"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }
